@@ -1,18 +1,7 @@
-import { Octokit } from "@octokit/core"
+import { getBranches } from "../src/request/index"
+import { getElement, parseBranches } from "./utils/util"
 
-const assessToken = "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"
-const octokit = new Octokit({
-  auth: assessToken
+getBranches().then(res => {
+  const $branches = getElement("branches")
+  $branches.innerHTML = parseBranches(res)
 })
-const result = await octokit.request(
-  "GET /repos/{owner}/{repo}",
-  {
-    owner: "jinchao1992",
-    repo: "request-github-api",
-    mediaType: {
-      format: "raw"
-    }
-  }
-)
-
-console.log(result.data)
