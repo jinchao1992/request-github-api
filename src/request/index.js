@@ -70,13 +70,15 @@ const createBranch = async (params) => {
   }
 }
 
-const getFileContent = async () => {
+const getFileContent = async (params) => {
+  const { branch, path } = params
   try {
     const result = await octokit.request(
       "GET /repos/{owner}/{repo}/contents/{path}",
       {
         ...defaultData,
-        path: "membership_data.json",
+        branch,
+        path,
         mediaType: {
           format: "raw"
         }
@@ -88,8 +90,39 @@ const getFileContent = async () => {
   }
 }
 
+const updateFileContent = async (params) => {
+  const {
+    branch,
+    path,
+    commitMessage = ":art: Update event success",
+    content,
+    sha
+  } = params
+  try {
+    await octokit.request(
+      "PUT /repos/{owner}/{repo}/contents/{path}",
+      {
+        ...defaultData,
+        branch,
+        path,
+        message: commitMessage,
+        content,
+        sha,
+        mediaType: {
+          format: "raw"
+        }
+      }
+    )
+    return true
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
 export {
   getBranches,
   createBranch,
-  getFileContent
+  getFileContent,
+  updateFileContent
 }

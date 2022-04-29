@@ -8,15 +8,29 @@
 	<title>Request GitHub API</title>
 </head>
 <body>
-<h1>通过 GitHub Api 获取 GitHub 相关内容</h1>
-<h2>获取到的分支列表：</h2>
-<ul class="branches"></ul>
+<h1>通过 GitHub Api 获取 Repo 相关内容</h1>
+<h2>分支列表：</h2>
+<label>
+	<select class="branches" style="width: 200px; height: 30px;"></select>
+</label>
+<h3>添加分支</h3>
 <div class="createBranch">
 	<label>
 		分支名：
-		<input type="text" name="branchName" class="inputBranchName" />
+		<input type="text" name="branchName" class="inputBranchName" style="width: 200px; height: 30px;" />
 	</label>
 	<button class="btnBranch">新增分支</button>
+</div>
+<hr>
+<h2>
+	<span>获取到的 membership_data.json 文件内容</span>
+</h2>
+<div>
+	<label>
+		<span>请选择分支：</span>
+		<select class="branches choseBranches" style="width: 200px; height: 30px;"></select>
+	</label>
+	<button class="btnUpdateContent">更新文件内容</button>
 </div>
 <div>
 	<pre>
