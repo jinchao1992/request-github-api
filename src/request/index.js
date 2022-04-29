@@ -11,7 +11,6 @@ const defaultHeader = {
   }
 }
 const defaultData = {
-  ...defaultHeader,
   owner: "jinchao1992",
   repo: "request-github-api"
 }
@@ -37,6 +36,7 @@ const getCurrentCommit = async () => {
   const result = await octokit.request(
     "GET /repos/{owner}/{repo}/commits",
     {
+      ...defaultHeader,
       ...defaultData,
       per_page: 1
     }
@@ -49,6 +49,7 @@ const createRef = async (params) => {
   return await octokit.request(
     "POST /repos/{owner}/{repo}/git/refs",
     {
+      ...defaultHeader,
       ...defaultData,
       ref: `refs/heads/${branchName}`,
       sha: commit
@@ -69,7 +70,26 @@ const createBranch = async (params) => {
   }
 }
 
+const getFileContent = async () => {
+  try {
+    const result = await octokit.request(
+      "GET /repos/{owner}/{repo}/contents/{path}",
+      {
+        ...defaultData,
+        path: "membership_data.json",
+        mediaType: {
+          format: "raw"
+        }
+      }
+    )
+    return result.data
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 export {
   getBranches,
-  createBranch
+  createBranch,
+  getFileContent
 }
