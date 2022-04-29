@@ -1,1 +1,7 @@
-[object Object]
+{
+  "header": {
+    "backgroundImage": "url444",
+    "color": "red",
+    "border": "1px solid blue"
+  }
+}
