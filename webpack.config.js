@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require("webpack")
+const path = require("path")
 
 module.exports = {
   mode: "development",
@@ -22,6 +24,20 @@ module.exports = {
             plugins: ["@babel/plugin-syntax-top-level-await"]
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: (resourcePath, context) => {
+                return path.relative(path.dirname(resourcePath), context) + "/"
+              }
+            }
+          },
+          "css-loader"
+        ]
       }
     ]
   },
@@ -34,6 +50,10 @@ module.exports = {
       "process.env": {
         USER_PRIVATE_GITHUB_TOKEN: `'${process.env.USER_PRIVATE_GITHUB_TOKEN}'`
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css"
     })
   ]
 }
